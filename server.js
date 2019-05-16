@@ -14,6 +14,12 @@ io.on('connection', function (socket) {
 
     socket.emit('Connection To Server');
 
+    socket.on("CheckStatus", function (data){
+        socket.emit('Connection To Server');
+    });
+
+    
+
     socket.on('login', function (data) {
 
         do
@@ -43,3 +49,4 @@ io.on('connection', function (socket) {
     });
 
 });
+
