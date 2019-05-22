@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
 
             var thisPlayerId = shortId.generate();
 
-            var playerID = {id:thisPlayerId,name:data.playerName,numberplayer:numberPlayerInServer}// Client // JSONobject.AddField("name",playerName);
+            var playerID = {id:thisPlayerId,name:data.playerName,numberplayer:numberPlayerInServer,numberplayerReady:numberPlayerReadyInServer}// Client // JSONobject.AddField("name",playerName);
 
 
             console.log("client Connect id = ", playerID);
@@ -55,8 +55,16 @@ io.on('connection', function (socket) {
 
     socket.on('logout', function (data) {
 
-        numberPlayerInServer--;   
-        numberPlayerReadyInServer--;
+        numberPlayerInServer--;
+        if(data.checkReady == true)
+        {
+            numberPlayerReadyInServer--;
+        }
+
+        console.log(numberPlayerInServer);
+        console.log(numberPlayerReadyInServer);
+
+        
         socket.emit('logout success', data);
         socket.broadcast.emit('other player logout', data);
         console.log("Logout");
