@@ -128,8 +128,9 @@ io.on('connection', function (socket) {
                 numberPlayerWin++;
             }
 
-
-
+            console.log(data.Ans);
+            console.log(numberPlayerWin);
+            console.log(numberPlayerLose);
             
             if(numberAns >= numberPlayerReadyInServer)
             {
@@ -154,7 +155,7 @@ io.on('connection', function (socket) {
                 var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer"}
             }
 
-            console.log(data.id);
+            
 
             socket.emit('CheckAns', senderValue);
             socket.broadcast.emit('CheckAns', senderValue);
