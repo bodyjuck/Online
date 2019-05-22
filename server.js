@@ -44,6 +44,8 @@ io.on('connection', function (socket) {
 
             console.log("client Connect id = ", playerID);
 
+            console.log(numberPlayerInServer);
+
             socket.emit('login success', playerID);
 
             socket.broadcast.emit('other player login', playerID);
