@@ -144,6 +144,12 @@ io.on('connection', function (socket) {
                     allPlayerAns = true;
                     var senderValue = {Con:conclude,Message:"No One Win",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
                 }
+                else if(numberPlayerWin == 1)
+                {
+                    numberAns = 0;
+                    allPlayerAns = true;
+                    var senderValue = {Con:conclude,Message:"Have A Winner",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
+                }
                 else
                 {
                     numberPlayerReadyInServer = numberPlayerReadyInServer - numberPlayerLose;
@@ -182,6 +188,21 @@ io.on('connection', function (socket) {
             gameIsPlaying = false;
             socket.emit('GameEND');
             socket.broadcast.emit('GameEND');
+        }
+    });
+
+    socket.on("ShowWinner", function (data){
+
+        if(gameIsPlaying)
+        {
+            numberPlayerReadyInServer = 0;
+            numberAns = 0;
+            allPlayerAns = false;
+            gameIsPlaying = false;
+
+
+            socket.emit('ShowWinner',{id:data.id,name:data.name});
+            socket.broadcast.emit('ShowWinner',{id:data.id,name:data.name});
         }
     });
 });
