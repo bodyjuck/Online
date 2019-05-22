@@ -3,8 +3,24 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var shortId = require('shortid');
 
+var RandomNum = Math.floor(Math.random() * 100);
+
+
 var players = [];
-var protectedRepeatID = [];
+
+var numberPlayerInServer = 0;
+
+var numberPlayerReadyInServer = 0;
+
+var gameIsPlaying = false;
+
+var numberAns = 0;
+
+var allPlayerAns = false;
+
+var numberPlayerWin = 0;
+var numberPlayerLose = 0;
+
 
 server.listen(8081, function () {
     console.log("server started");
@@ -14,39 +30,138 @@ io.on('connection', function (socket) {
 
     socket.emit('Connection To Server');
 
-    socket.on("CheckStatus", function (data){
-        socket.emit('Connection To Server');
-    });
-
-    
-
     socket.on('login', function (data) {
 
-        do
+        if(!gameIsPlaying)
         {
+            numberPlayerInServer++;
+
             var thisPlayerId = shortId.generate();
+
+            var playerID = {id:thisPlayerId,name:data.playerName,numberplayer:numberPlayerInServer}// Client // JSONobject.AddField("name",playerName);
+            players[thisPlayerId] = playerID;
+
+            console.log("client Connect id = ", playerID);
+
+            socket.emit('login success', playerID);
+
+            socket.broadcast.emit('other player login', playerID);
         }
-        while(thisPlayerId == protectedRepeatID[thisPlayerId]);
-
-        protectedRepeatID[thisPlayerId] = thisPlayerId;
-
-        var playerID = {id:thisPlayerId,name:data.playerName}// Client // JSONobject.AddField("name",playerName);
-        players[thisPlayerId] = playerID;
-
-        console.log("client Connect id = ", playerID);
-
-        socket.emit('login success', playerID);
-        socket.broadcast.emit('other player login', playerID);
+        
     });
 
     socket.on('logout', function (data) {
 
-        protectedRepeatID[data.id] = "";
-        players[data.id] = "";
-
+        numberPlayerInServer--;   
+        numberPlayerReadyInServer--;
         socket.emit('logout success', data);
         socket.broadcast.emit('other player logout', data);
     });
 
+    socket.on("CheckReady", function (data){
+
+        if(!gameIsPlaying)
+        {
+            if(data.CheckReady == true)
+            {
+                numberPlayerReadyInServer++;
+
+            }
+            else if(data.CheckReady == false)
+            {
+                numberPlayerReadyInServer--;
+            }
+
+            if(numberPlayerReadyInServer >= numberPlayerInServer)
+            {
+                var readyStatus = {status:"All Player Ready",playernum:numberPlayerReadyInServer}
+                gameIsPlaying = true;
+                RandomNum = Math.floor(Math.random() * 6);
+                console.log(RandomNum);
+            }
+            else
+            {
+                var readyStatus = {status:"" + (numberPlayerInServer - numberPlayerReadyInServer) +" Player Not Ready",playernum:numberPlayerReadyInServer}
+            }
+
+            socket.emit('checkReady', readyStatus);
+            socket.broadcast.emit('checkReady', readyStatus);
+        }
+    });
+
+    socket.on("CheckAns", function (data){
+
+        if(!allPlayerAns)
+        {
+            numberAns++;
+
+            if(data.Ans = "Higher" && RandomNum >= 4)
+            {
+                var conclude = "ํYou Guess True";
+                numberPlayerWin++;
+            }
+            else if(data.Ans = "Higher" && RandomNum <= 3)
+            {
+                var conclude = "You Guess Flase";
+                numberPlayerLose++;
+            }
+            else if(data.Ans = "Lower" && RandomNum >= 4)
+            {
+                var conclude = "You Guess Flase";
+                numberPlayerLose++;
+            }
+            else if(data.Ans = "Lower" && RandomNum <= 3)
+            {
+                var conclude = "You Guess True";
+                numberPlayerWin++;
+            }
+
+            
+            if(numberAns >= numberPlayerReadyInServer)
+            {
+                if(numberPlayerWin != 0)
+                {
+                    
+                    allPlayerAns = true;
+                    var senderValue = {Con:conclude,Message:"No One Win",whatLeft:numberPlayerReadyInServer,id:data.id}
+                }
+                else
+                {
+                    numberPlayerReadyInServer = numberPlayerReadyInServer - numberPlayerLose;
+                    numberAns = 0;
+                    allPlayerAns = true;
+                    var senderValue = {Con:conclude,Message:"All Player Answer",whatLeft:numberPlayerReadyInServer,id:data.id}
+                }
+
+                
+            }
+            else
+            {
+                var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer"}
+            }
+
+            socket.emit('CheckAns', senderValue);
+            socket.broadcast.emit('CheckAns', senderValue);
+        }
+    });
+
+    socket.on("Next Round", function (data){
+
+        console.log("AAA");
+        
+    });
+
+    socket.on("Remath", function (data){
+
+        if(gameIsPlaying)
+        {
+            numberPlayerReadyInServer = 0;
+            numberAns = 0;
+            allPlayerAns = false;
+            gameIsPlaying = false;
+            socket.emit('GameEND');
+            socket.broadcast.emit('GameEND');
+        }
+    });
 });
 
