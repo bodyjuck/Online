@@ -24,6 +24,7 @@ var numberPlayerLose = 0;
 
 server.listen(8081, function () {
     console.log("server started");
+    console.log("AAA");
 });
 
 io.on('connection', function (socket) {
