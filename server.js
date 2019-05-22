@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
             
             if(numberAns >= numberPlayerReadyInServer)
             {
-                if(numberPlayerWin != 0)
+                if(numberPlayerWin == 0)
                 {
                     
                     allPlayerAns = true;
