@@ -158,6 +158,9 @@ io.on('connection', function (socket) {
                     var senderValue = {Con:conclude,Message:"All Player Answer",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
                 }
 
+                numberPlayerWin = 0;
+                numberPlayerLose = 0;
+
                 
             }
             else
