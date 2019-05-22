@@ -111,22 +111,22 @@ io.on('connection', function (socket) {
         {
             numberAns++;
 
-            if(data.Ans = "Higher" && RandomNum >= 4)
+            if(data.Ans == true && RandomNum >= 4)
             {
                 var conclude = "ํYou Guess True";
                 numberPlayerWin++;
             }
-            else if(data.Ans = "Higher" && RandomNum <= 3)
+            else if(data.Ans == true && RandomNum <= 3)
             {
                 var conclude = "You Guess Flase";
                 numberPlayerLose++;
             }
-            else if(data.Ans = "Lower" && RandomNum >= 4)
+            else if(data.Ans == false && RandomNum >= 4)
             {
                 var conclude = "You Guess Flase";
                 numberPlayerLose++;
             }
-            else if(data.Ans = "Lower" && RandomNum <= 3)
+            else if(data.Ans == false && RandomNum <= 3)
             {
                 var conclude = "You Guess True";
                 numberPlayerWin++;
