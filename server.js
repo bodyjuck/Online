@@ -140,7 +140,7 @@ io.on('connection', function (socket) {
             {
                 if(numberPlayerWin == 0)
                 {
-                    
+                    numberAns = 0;
                     allPlayerAns = true;
                     var senderValue = {Con:conclude,Message:"No One Win",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
                 }
@@ -178,6 +178,14 @@ io.on('connection', function (socket) {
     socket.on("Next Round", function (data){
 
         console.log("AAA");
+        RandomNum = Math.floor(Math.random() * 6);
+                if(RandomNum == 0)
+                {
+                    RandomNum++;
+                }
+                console.log(RandomNum);
+                
+        allPlayerAns = false;
         
     });
 
