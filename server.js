@@ -64,12 +64,12 @@ io.on('connection', function (socket) {
 
         if(!gameIsPlaying)
         {
-            if(data.CheckReady == "true")
+            if(data.checkReady == true)
             {
                 numberPlayerReadyInServer++;
 
             }
-            else if(data.CheckReady == "false")
+            else if(data.checkReady == false)
             {
                 numberPlayerReadyInServer--;
             }
