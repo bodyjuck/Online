@@ -88,7 +88,11 @@ io.on('connection', function (socket) {
             {
                 var readyStatus = {status:"All Player Ready",playernum:numberPlayerReadyInServer}
                 gameIsPlaying = true;
-                RandomNum = Math.floor(Math.random() * (1-6));
+                RandomNum = Math.floor(Math.random() * 6);
+                if(RandomNum == 0)
+                {
+                    RandomNum++;
+                }
                 console.log(RandomNum);
             }
             else
