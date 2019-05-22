@@ -6,7 +6,7 @@ var shortId = require('shortid');
 var RandomNum = Math.floor(Math.random() * 100);
 
 
-var players = [];
+
 
 var numberPlayerInServer = 0;
 
@@ -24,7 +24,7 @@ var numberPlayerLose = 0;
 
 server.listen(8081, function () {
     console.log("server started");
-    console.log("AAA");
+    
 });
 
 io.on('connection', function (socket) {
@@ -40,7 +40,7 @@ io.on('connection', function (socket) {
             var thisPlayerId = shortId.generate();
 
             var playerID = {id:thisPlayerId,name:data.playerName,numberplayer:numberPlayerInServer}// Client // JSONobject.AddField("name",playerName);
-            players[thisPlayerId] = playerID;
+
 
             console.log("client Connect id = ", playerID);
 
@@ -57,6 +57,7 @@ io.on('connection', function (socket) {
         numberPlayerReadyInServer--;
         socket.emit('logout success', data);
         socket.broadcast.emit('other player logout', data);
+        console.log("Logout");
     });
 
     socket.on("CheckReady", function (data){
@@ -84,7 +85,7 @@ io.on('connection', function (socket) {
             {
                 var readyStatus = {status:"" + (numberPlayerInServer - numberPlayerReadyInServer) +" Player Not Ready",playernum:numberPlayerReadyInServer}
             }
-
+            console.log(numberPlayerReadyInServer);
             socket.emit('checkReady', readyStatus);
             socket.broadcast.emit('checkReady', readyStatus);
         }
@@ -124,14 +125,14 @@ io.on('connection', function (socket) {
                 {
                     
                     allPlayerAns = true;
-                    var senderValue = {Con:conclude,Message:"No One Win",whatLeft:numberPlayerReadyInServer,id:data.id}
+                    var senderValue = {Con:conclude,Message:"No One Win",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
                 }
                 else
                 {
                     numberPlayerReadyInServer = numberPlayerReadyInServer - numberPlayerLose;
                     numberAns = 0;
                     allPlayerAns = true;
-                    var senderValue = {Con:conclude,Message:"All Player Answer",whatLeft:numberPlayerReadyInServer,id:data.id}
+                    var senderValue = {Con:conclude,Message:"All Player Answer",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
                 }
 
                 
