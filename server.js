@@ -175,8 +175,8 @@ io.on('connection', function (socket) {
 
             console.log("CCC");
 
-            socket.emit('CheckAns', senderValue);
-            socket.broadcast.emit('CheckAns', senderValue);
+            socket.emit('CheckAnss', senderValue);
+            socket.broadcast.emit('CheckAnss', senderValue);
         }
     });
 
