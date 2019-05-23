@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
             numberPlayerReadyInServer--;
         }
 
-        //console.log(numberPlayerInServer);
+        console.log(numberPlayerInServer);
         //console.log(numberPlayerReadyInServer);
 
         
