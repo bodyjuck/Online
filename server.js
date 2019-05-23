@@ -99,7 +99,7 @@ io.on('connection', function (socket) {
             {
                 var readyStatus = {status:"" + (numberPlayerInServer - numberPlayerReadyInServer) +" Player Not Ready",playernum:numberPlayerReadyInServer}
             }
-            console.log(numberPlayerReadyInServer);
+            //console.log(numberPlayerReadyInServer);
             socket.emit('checkReady', readyStatus);
             socket.broadcast.emit('checkReady', readyStatus);
         }
@@ -132,9 +132,9 @@ io.on('connection', function (socket) {
                 numberPlayerWin++;
             }
 
-            console.log(data.Ans);
-            console.log(numberPlayerWin);
-            console.log(numberPlayerLose);
+            //console.log(data.Ans);
+            //console.log(numberPlayerWin);
+            //console.log(numberPlayerLose);
             
             if(numberAns >= numberPlayerReadyInServer)
             {
@@ -177,14 +177,14 @@ io.on('connection', function (socket) {
 
     socket.on("Next Round", function (data){
 
-        console.log("AAA");
+        //console.log("AAA");
         RandomNum = Math.floor(Math.random() * 6);
                 if(RandomNum == 0)
                 {
                     RandomNum++;
                 }
                 console.log(RandomNum);
-                
+
         allPlayerAns = false;
         
     });
