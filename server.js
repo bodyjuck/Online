@@ -170,7 +170,7 @@ io.on('connection', function (socket) {
             }
             else
             {
-                var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer"}
+                var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
             }
 
             console.log("CCC");
