@@ -113,6 +113,8 @@ io.on('connection', function (socket) {
         {
             numberAns++;
 
+            console.log("AAA");
+
             if(data.Ans == true && RandomNum >= 4)
             {
                 var conclude = true;
@@ -133,7 +135,8 @@ io.on('connection', function (socket) {
                 var conclude = true;
                 numberPlayerWin++;
             }
-
+            
+            console.log("BBB");
             //console.log(data.Ans);
             //console.log(numberPlayerWin);
             //console.log(numberPlayerLose);
@@ -170,7 +173,7 @@ io.on('connection', function (socket) {
                 var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer"}
             }
 
-            
+            console.log("CCC");
 
             socket.emit('CheckAns', senderValue);
             socket.broadcast.emit('CheckAns', senderValue);
