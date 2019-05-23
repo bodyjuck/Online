@@ -21,6 +21,8 @@ var allPlayerAns = false;
 var numberPlayerWin = 0;
 var numberPlayerLose = 0;
 
+var IsRunning = false;
+
 
 server.listen(8081, function () {
     console.log("server started");
@@ -61,13 +63,13 @@ io.on('connection', function (socket) {
             numberPlayerReadyInServer--;
         }
 
-        console.log(numberPlayerInServer);
-        console.log(numberPlayerReadyInServer);
+        //console.log(numberPlayerInServer);
+        //console.log(numberPlayerReadyInServer);
 
         
         socket.emit('logout success', data);
         socket.broadcast.emit('other player logout', data);
-        console.log("Logout");
+        //console.log("Logout");
     });
 
     socket.on("CheckReady", function (data){
@@ -179,11 +181,12 @@ io.on('connection', function (socket) {
 
         //console.log("AAA");
         RandomNum = Math.floor(Math.random() * 6);
-                if(RandomNum == 0)
-                {
-                    RandomNum++;
-                }
-                console.log(RandomNum);
+        if(RandomNum == 0 && !IsRunning)
+        {
+            RandomNum++;
+        }
+        IsRunning = true;
+        console.log(RandomNum);
 
         allPlayerAns = false;
         
@@ -197,6 +200,7 @@ io.on('connection', function (socket) {
             numberAns = 0;
             allPlayerAns = false;
             gameIsPlaying = false;
+            IsRunning = false;
             socket.emit('GameEND');
             socket.broadcast.emit('GameEND');
         }
@@ -210,6 +214,7 @@ io.on('connection', function (socket) {
             numberAns = 0;
             allPlayerAns = false;
             gameIsPlaying = false;
+            IsRunning = false;
 
 
             socket.emit('ShowWinner',{id:data.id,name:data.name});
