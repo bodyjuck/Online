@@ -12,6 +12,8 @@ var numberPlayerInServer = 0;
 
 var numberPlayerReadyInServer = 0;
 
+var numberPlayerLeft = 0;
+
 var gameIsPlaying = false;
 
 var numberAns = 0;
@@ -22,6 +24,8 @@ var numberPlayerWin = 0;
 var numberPlayerLose = 0;
 
 var IsRunning = false;
+
+
 
 
 server.listen(8081, function () {
@@ -170,7 +174,7 @@ io.on('connection', function (socket) {
             }
             else
             {
-                var senderValue = {Con:conclude,Message:"" + (numberPlayerInServer - numberAns) +" Player Not Answer",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
+                var senderValue = {Con:conclude,Message:"" + (numberPlayerReadyInServer - numberAns) +" Player Not Answer",whatLeft:numberPlayerReadyInServer,id:data.id,Roll:RandomNum}
             }
 
             console.log("CCC");
